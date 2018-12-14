@@ -1,7 +1,44 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Day2 {
+
+    public static void main(String args[]) {
+        ArrayList<String> idList = new ArrayList<String>();
+        idList = readIDs("day2input.txt");
+
+        int day2Part1 = Day2.getPartOneResult(idList);
+        String day2Part2 = Day2.getPartTwoResult(idList);
+
+
+    }
+
+    public static ArrayList<String> readIDs(String fileName) {
+        File file = new File(fileName);
+        FileReader fr = null;
+        ArrayList<String> idList = new ArrayList<String>();
+
+        try {
+            fr = new FileReader(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        BufferedReader br = new BufferedReader(fr);
+        String line;
+
+        try {
+            while ((line = br.readLine()) != null) {
+                idList.add(line);
+            }
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        return idList;
+
+    }
 
     public static int getPartOneResult(ArrayList<String> idList) {
 

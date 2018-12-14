@@ -1,3 +1,5 @@
+package beans;
+
 import java.util.Date;
 
 public class Record implements Comparable<Record> {

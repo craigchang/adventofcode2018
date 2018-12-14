@@ -1,11 +1,7 @@
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 
 public class Day4 {
     public static void main(String args[]) {
@@ -15,6 +11,8 @@ public class Day4 {
 
     public static int findGuardAsleepMostMinutes(ArrayList<Record> recordsList) {
         HashMap<Integer, Integer> map = new  HashMap<Integer, Integer>();
+        HashMap<Integer, Integer[]> schedule = new HashMap<Integer, Integer[]>();
+        Calendar cal = Calendar.getInstance();
 
         int currentGuardId = 0;
         Date currentDateTimeFallsAsleep = new Date();
@@ -25,8 +23,10 @@ public class Day4 {
                 if(currentGuardId != record.getGuardId())
                     currentGuardId = record.getGuardId();
 
-                if(!map.containsKey(record.getGuardId()))
+                if(!map.containsKey(record.getGuardId())) {
                     map.put(record.getGuardId(), 0);
+                    schedule.put(record.getGuardId(), getArray());
+                }
             }
 
             if(record.getAction().equals("falls asleep")) {
@@ -35,6 +35,17 @@ public class Day4 {
 
             if(record.getAction().equals("wakes up")) {
                 int minutes = (int)( record.getDate().getTime() - currentDateTimeFallsAsleep.getTime() ) / (1000 * 60) % 60;
+
+                cal.setTime(currentDateTimeFallsAsleep);
+                int startMinute = cal.get(Calendar.MINUTE);
+
+                cal.setTime(record.getDate());
+                int endMinute = cal.get(Calendar.MINUTE);
+
+                for(int i = startMinute; i < endMinute; i++)
+                    (schedule.get(currentGuardId))[i]++;
+
+
                 map.put(currentGuardId, map.get(currentGuardId) + minutes);
             }
         }
@@ -96,6 +107,17 @@ public class Day4 {
         }
 
         return recordsList;
+    }
+
+    private static Integer[] getArray() {
+        return new Integer[]{
+                0,0,0,0,0,0,0,0,0,0,
+                0,0,0,0,0,0,0,0,0,0,
+                0,0,0,0,0,0,0,0,0,0,
+                0,0,0,0,0,0,0,0,0,0,
+                0,0,0,0,0,0,0,0,0,0,
+                0,0,0,0,0,0,0,0,0,0
+        };
     }
 
 

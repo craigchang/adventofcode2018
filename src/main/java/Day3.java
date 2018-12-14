@@ -1,13 +1,23 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class Day3 {
-    public static ArrayList<Claim> readClaims(String fileName) {
+
+    public static void main(String args[]) {
+        ArrayList<beans.Claim> claimsList = new ArrayList<beans.Claim>();
+        claimsList = readClaims("day3input.txt");
+        int totalSquareFoot = getPartOneResult(claimsList);
+        int claimId = getPartTwoResult(claimsList);
+
+        System.out.println("Total Square Ft: " + totalSquareFoot);
+        System.out.println("beans.Claim Id: " + claimId);
+    }
+
+    public static ArrayList<beans.Claim> readClaims(String fileName) {
         File file = new File(fileName);
         FileReader fr = null;
-        ArrayList<Claim> claimsList = new ArrayList<Claim>();
+        ArrayList<beans.Claim> claimsList = new ArrayList<beans.Claim>();
 
         try {
             fr = new FileReader(file);
@@ -26,7 +36,7 @@ public class Day3 {
                 String[] positionTokens = lineTokens[1].split(",");
                 String[] dimensionTokens = lineTokens[2].split("x");
 
-                Claim claim = new Claim();
+                beans.Claim claim = new beans.Claim();
                 claim.setId(Integer.parseInt(idTokens[1].trim()));
                 claim.setX(Integer.parseInt(positionTokens[0].trim()));
                 claim.setY(Integer.parseInt(positionTokens[1].trim()));
@@ -44,7 +54,7 @@ public class Day3 {
         return claimsList;
     }
 
-    public static int getPartOneResult(ArrayList<Claim> claimsList) {
+    public static int getPartOneResult(ArrayList<beans.Claim> claimsList) {
         HashMap<String, Integer> map = new HashMap<String, Integer>();
 
         map = getMap(claimsList);
@@ -59,11 +69,11 @@ public class Day3 {
         return totalSquareFt;
     }
 
-    public static int getPartTwoResult(ArrayList<Claim> claimsList) {
+    public static int getPartTwoResult(ArrayList<beans.Claim> claimsList) {
         HashMap<String, Integer> map = getMap(claimsList);
         int claimWithNoOverlap = 0;
 
-        for(Claim claim: claimsList) {
+        for(beans.Claim claim: claimsList) {
             int numOverlap = 0;
             for(int i = 0; i < claim.getLength(); i++) {
                 for (int j = 0; j < claim.getHeight(); j++) {
@@ -83,10 +93,10 @@ public class Day3 {
         return claimWithNoOverlap;
     }
 
-    private static HashMap<String, Integer> getMap(ArrayList<Claim> claimsList) {
+    private static HashMap<String, Integer> getMap(ArrayList<beans.Claim> claimsList) {
         HashMap<String, Integer> map = new HashMap<String, Integer>();
 
-        for(Claim claim: claimsList) {
+        for(beans.Claim claim: claimsList) {
             for(int i = 0; i < claim.getLength(); i++) {
                 for(int j = 0; j < claim.getHeight(); j++) {
                     String key = getKey(claim, i, j);
@@ -100,7 +110,7 @@ public class Day3 {
         return map;
     }
 
-    private static String getKey(Claim claim, int addX, int addY) {
+    private static String getKey(beans.Claim claim, int addX, int addY) {
         return (claim.getX() + addX) + "," + (claim.getY() + addY);
     }
 }
