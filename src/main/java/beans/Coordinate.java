@@ -1,12 +1,22 @@
 package beans;
 
 public class Coordinate {
+    private int id;
     private int x;
     private int y;
 
-    public Coordinate(int x, int y) {
+    public Coordinate(int id, int x, int y) {
+        this.id = id;
         this.x = x;
         this.y = y;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getX() {
